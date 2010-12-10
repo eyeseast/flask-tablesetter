@@ -20,6 +20,7 @@
         {% endif %}
         {% if table.next_page %}
         <a href="{{ url_for('table', slug=table.slug) }}/{{ table.next_page }}/ }}" class="next">next</a>
+        {% endif %}
         {% if not table.hard_paginate %}
           <select class="pagesize">
             {% for count in [1, 2, 3, 4] %}
@@ -74,7 +75,7 @@
           <tr>
             {% for column in row.columns %}
               {% if not column.ignored %}
-                <td{{ " style=\"#{column.style}\"" }}>{{ column }}</td>
+                <td style="{{ column.style }}">{{ column }}</td>
               {% endif %}
             {% endfor %}
           </tr>
