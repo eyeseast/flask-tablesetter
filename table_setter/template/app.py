@@ -1,4 +1,4 @@
-from flask import abort, Flask
+from flask import abort, Flask, render_template
 from table_setter.table import Table, TableDoesNotExist
 
 app = Flask(__name__)

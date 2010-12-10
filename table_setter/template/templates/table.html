@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}{{ table.title }}{% endblock %}
+
+{% block content %}
+<div id="table_title">{{ table.title }}</div>
+<div id="deck">{{ table.deck }}</div>
+<div id="controls">
+  {% if not table.faceted %}
+    {% if not table.hard_paginate %}
+      <div id="filter">Filter: <input type="text"></div>
+    {% endif %}
+    <div id="pager" class="pager">
+      <form>
+        <a href="{{ url_for "/#{table.slug}/#{table.prev_page}/" if !table.prev_page.nil? }}" class="prev">prev</a>
+        <span class="pagedisplay"/>{{ "#{table.page} / #{table.total_pages}" if table.hard_paginate? }}</span>
+        <a href="{{ url_for "/#{table.slug}/#{table.next_page}/" if !table.next_page.nil? }}" class="next">next</a>
+        {% if not table.hard_paginate %}
+          <select class="pagesize">
+            {% (1..4).each do |count| %}
+            {% for count in [1, 2, 3, 4] %}
+              <option value="{{ table.per_page * count }}">
+              {{ table.per_page * count }}</option>
+            {% endfor %}
+          </select>
+        {% endif %}
+      </form>
+    </div>
+  {% endif %}
+</div>
+  <table id="data" class="tabular">
+    <thead>
+      <tr>
+      {% if table.faceted %}
+        <th></th>
+      {% endif %}
+      {% for header in table.data.headers %}
+        {% if not header.ignored %}
+          <th style="{{ header.style }}">{{ header }}</th>
+        {% endif %}
+      {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% if table.faceted %}
+        {% for facet in table.facets %}
+          <tr>
+            <th style="text-align:left;">{{ facet.faceted_on }}</th>
+            {% for header in facet.headers %}
+              {% if not i == 0 %}
+                <th style="{{ header.style }}">
+                  {% if header.total %}{{ facet.total_for(header) }}{% endif %}
+                </th>
+              {% endif %}
+            {% endfor %}
+          </tr>
+          {% for row in facet.rows %}
+            <tr>
+              <td></td>
+              {% for column in row.columns %}
+                {% if not column.ignored %}
+                  <td style="{{ column.style }}">{{ column }}</td>
+                {% endif %}
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      {% else %}
+        {% for row in table.data.rows %}
+          <tr>
+            {% for column in row.columns %}
+              {% if not column.ignored %}
+                <td{{ " style=\"#{column.style}\"" }}>{{ column }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      {% endif %}
+    </tbody>
+     <tfoot>
+     </tfoot>
+  </table>
+  <div>{{ table.footer }}</div>
+</div>
+{% endblock %}

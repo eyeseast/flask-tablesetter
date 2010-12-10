@@ -13,6 +13,7 @@ setup(
     description = "A tool for presenting spreadsheets and tables in Python, based on ProPublica's TableSetter",
     long_description = long_description,
     packages = ['table_setter', 'table_setter.template'],
+    package_data = {'table_setter.template': ['static/*', 'tables/*', 'templates/*']},
     scripts = ['bin/table-setter'],
     url = "http://github.com/eyeseast/python-tablesetter",
     platforms = ['any'],
