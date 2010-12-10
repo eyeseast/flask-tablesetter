@@ -12,16 +12,16 @@
     <script src='{{ url_for("static", filename="js/jquery.tablesorter.pager.js") }}'></script>
     <script src='{{ url_for("static", filename="js/jquery.tablesorter.multipagefilter.js") }}'></script>
     <script src='{{ url_for("static", filename="js/application.js") }}'></script>
-    <link href='{{ url_for("static", filname="css/stylesheet.css") }}' rel='stylesheet' type='text/css' media='all' />
+    <link href='{{ url_for("static", filename="css/stylesheet.css") }}' rel='stylesheet' type='text/css' media='all' />
 
     <script>
       {% if table %}
-        var sortPlease = <%= table.sortable? %>;
-        var sortOrder = <%= table.sort_array.inspect || "null"%>;
-        var perPage = <%= table.per_page %>;
+        var sortPlease = {{ table.sortable }};
+        var sortOrder = {{ table.sorted_by }};
+        var perPage = {{ table.per_page }};
       {% else %}
         var sortPlease = false;
-      {% end %}
+      {% endif %}
     </script>
 
   </head>

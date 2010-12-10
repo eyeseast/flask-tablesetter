@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <ul>
-{% for table in tables %}
+{% for slug, table in tables.items() %}
   <li>
-    <a href="{{ url_for('table', slug=table.slug) }}">{{ table.title }}</a>
+    <a href="{{ url_for('table', slug=slug) }}">{{ table.title }}</a>
   </li>
 {% endfor %}
 </ul>
