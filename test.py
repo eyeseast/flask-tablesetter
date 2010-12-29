@@ -94,10 +94,6 @@ class CommandTest(unittest.TestCase):
         args.func(args)
         self.assertTrue('test_set' in os.listdir('.'))
         shutil.rmtree('test_set')
-    
-    def testNoCommand(self):
-        args = commands.parser.parse_args([])
-        args.func(args)
 
 
 class AppTest(unittest.TestCase):

@@ -27,8 +27,15 @@ def _install(args):
 
 def _start(args):
     """
-    Start up a tornado server, using a TableSetter instance
+    Add args.path to sys.path
+    import app
+    app.run()
     """
+    sys.path.insert(0, args.path)
+    from app import app
+    app.run()
+    
+def tornado():
     from table_setter.app import TableSetter
     from tornado.httpserver import HTTPServer
     from tornado.ioloop import IOLoop
