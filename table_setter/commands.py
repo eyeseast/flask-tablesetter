@@ -33,35 +33,8 @@ def _start(args):
     """
     sys.path.insert(0, args.path)
     from app import app
-    app.run()
+    app.run(args.host, args.port)
     
-def tornado():
-    from table_setter.app import TableSetter
-    from tornado.httpserver import HTTPServer
-    from tornado.ioloop import IOLoop
-    from tornado.options import _LogFormatter
-        
-    # logging
-    log_level = getattr(logging, args.logging.upper(), 'INFO')
-    logger = logging.getLogger('TableSetter')
-    logger.setLevel(log_level)
-    handler = logging.StreamHandler()
-    handler.setLevel(log_level)
-    handler.setFormatter(_LogFormatter(color=False))
-    logger.addHandler(handler)
-    
-    # create the Tornado app and spin up a server
-    ts = TableSetter(args.path)
-    app = ts.create_app()
-    server = HTTPServer(app)
-    server.listen(args.port)
-    try:
-        print "Spinning up a Tornado server on port %s\n" % args.port
-        IOLoop.instance().start()
-    except KeyboardInterrupt:
-        print "\nShutting down...\n"
-        IOLoop.instance().stop()
-
 # set up the parser
 parser = argparse.ArgumentParser()
 subcommands = parser.add_subparsers()
@@ -71,11 +44,13 @@ install = subcommands.add_parser('install', help="Install a new table_setter dir
 install.set_defaults(func=_install)
 
 # start command
-start = subcommands.add_parser('start', help="Run table_setter on a Tornado server")
+start = subcommands.add_parser('start', help="Run table_setter on a Flask server")
 start.set_defaults(func=_start)
-start.add_argument('-p', '--port', default=8888, type=int,
+start.add_argument('-b', '--host', default='127.0.0.1', dest='host',
+                   help="Bind to this host")
+start.add_argument('-p', '--port', default=5000, type=int, dest='port',
                    help="Listen on this port")
-start.add_argument('--logging', default='INFO',
+start.add_argument('--logging', default='INFO', dest='logging',
                    help="Set logging level")
 
 

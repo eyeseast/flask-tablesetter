@@ -1,0 +1,21 @@
+#!/usr/bin/env python
+# encoding: utf-8
+"""
+Create and run a TableSetter instance
+"""
+import sys
+import os
+
+from table_setter.commands import parser
+
+def main():
+    if not sys.argv[1:]:
+        parser.print_help()
+        sys.exit(0)
+    else:
+        parser.parse_args()
+
+
+if __name__ == '__main__':
+    main()
+
