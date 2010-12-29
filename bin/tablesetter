@@ -13,7 +13,8 @@ def main():
         parser.print_help()
         sys.exit(0)
     else:
-        parser.parse_args()
+        args = parser.parse_args()
+        args.func(args)
 
 
 if __name__ == '__main__':
